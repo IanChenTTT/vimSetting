@@ -1,3 +1,9 @@
+" Enable syntax highlighting
+syntax enable
+
+" Set regular expression engine automatically
+set regexpengine=0
+
 " Turn on the Wild menu
 set wildmenu
 set wildmode=list:longest,full
@@ -13,6 +19,9 @@ endif
 
 " Always show current position
  set ruler
+
+" Show matching brackets when text indicator is over them
+set showmatch
 
 " Height of the command bar
 set cmdheight=1
@@ -84,7 +93,7 @@ nmap <leader>w :w!<cr>
 nmap <leader>q :wq<cr>
 
 " Fast FORCE quit
-nmap <leader>Q :wq!<cr>
+nmap <leader>Q :q!<cr>
 
 " ALL ABOUT TABS
 map <leader>tn :tabnew<cr>
@@ -94,3 +103,20 @@ map <leader>tm :tabmove
 map <leader>t<leader> :tabnext<cr>
 
 inoremap jk <esc>
+
+set t_Co=256
+set encoding=utf-8
+
+" ALL ABOUT MAKE FILE
+nnoremap <leader>m :vert :term make<CR><C-W><C-w>
+nnoremap <leader>mr :term 50 make run<CR><C-W><C-w>
+nnoremap <leader>mb :term 50 make build<CR><C-W><C-w>
+nnoremap <leader>ma :term 50 make all<CR><C-W><C-w>
+nnoremap <leader>mc :term 50 make clear<CR><C-W><C-w>
+
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
