@@ -1,3 +1,60 @@
+call plug#begin()
+" The default plugin directory will be as follows:
+"   - Vim (Linux/macOS): '~/.vim/plugged'
+"   - Vim (Windows): '~/vimfiles/plugged'
+"   - Neovim (Linux/macOS/Windows): stdpath('data') . '/plugged'
+" You can specify a custom plugin directory by passing it as the argument
+"   - e.g. `call plug#begin('~/.vim/plugged')`
+"   - Avoid using standard Vim directory names like 'plugin'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+call plug#end()
+" You can revert the settings after the call like so:
+"   filetype indent off   " Disable file-type-specific indentation
+"   syntax off            " Disable syntax highlighting
+"
+" Sets how many lines of history VIM has to remember
+
+" enable filetype detection:
+filetype on
+filetype plugin on
+filetype indent on " file type based indentation
+
+" in makefiles, don't expand tabs to spaces, since actual tab characters are
+" needed, and have indentation at 8 chars to be sure that all indents are tabs
+" (despite the mappings later):
+autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
+
+set history=500
+
+" Use tab for trigger completion with characters ahead and navigate
+" NOTE: There's always complete item selected by default, you may want to enable
+" no select by `"suggest.noselect": true` in your configuration file
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config
+
+
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Make <CR> to accept selected completion item or notify coc.nvim to format
+" <C-g>u breaks current undo, please make your own choice
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
+
+
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+function! s:CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
 " Enable syntax highlighting
 syntax enable
 
@@ -9,6 +66,9 @@ set wildmenu
 set wildmode=list:longest,full
 set wildoptions=pum
 
+"Ignore status line
+autocmd BufRead,BufNewFile * set laststatus=0
+
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 if has("win16") || has("win32")
@@ -17,6 +77,8 @@ else
     set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
 endif
 
+"Vim no swap
+set noswapfile
 " Always show current position
  set ruler
 
@@ -107,12 +169,18 @@ inoremap jk <esc>
 set t_Co=256
 set encoding=utf-8
 
+"ALMOST BLACK
+let g:despacio_Midnight = 1
+colorscheme despacio
+
 " ALL ABOUT MAKE FILE
 nnoremap <leader>m :vert :term make<CR><C-W><C-w>
-nnoremap <leader>mr :term 50 make run<CR><C-W><C-w>
-nnoremap <leader>mb :term 50 make build<CR><C-W><C-w>
-nnoremap <leader>ma :term 50 make all<CR><C-W><C-w>
-nnoremap <leader>mc :term 50 make clear<CR><C-W><C-w>
+nnoremap <leader>mr :vert :term make run<CR><C-W><C-w>
+nnoremap <leader>mb :vert :term make build<CR><C-W><C-w>
+nnoremap <leader>ma :vert :term make all<CR><C-W><C-w>
+nnoremap <leader>mc :vert :term make clean<CR><C-W><C-w>
+nnoremap <leader>mt :vert :term make test<CR><C-W><C-w>
+nnoremap <leader>mtr :vert :term make trunAll<CR><C-W><C-w>
 
 
 " Smart way to move between windows
