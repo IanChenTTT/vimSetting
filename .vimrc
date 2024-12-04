@@ -25,9 +25,7 @@ filetype indent on " file type based indentation
 " needed, and have indentation at 8 chars to be sure that all indents are tabs
 " (despite the mappings later):
 autocmd FileType make set noexpandtab shiftwidth=8 softtabstop=0
-
 set history=500
-
 " Use tab for trigger completion with characters ahead and navigate
 " NOTE: There's always complete item selected by default, you may want to enable
 " no select by `"suggest.noselect": true` in your configuration file
@@ -80,7 +78,7 @@ endif
 "Vim no swap
 set noswapfile
 " Always show current position
- set ruler
+set ruler
 
 " Show matching brackets when text indicator is over them
 set showmatch
@@ -120,8 +118,8 @@ set tabstop=2
 set shiftwidth=2
 
 " 字數過長時換行。
-set wrap
-"set nowrap     " 不換行。
+" set wrap
+set nowrap     " 不換行。
 
 " 關閉嗶嗶聲。
 set noeb
@@ -132,17 +130,25 @@ set autochdir
 " 捲動時保留底下 3 行。
 set scrolloff=3
 
-"===[ Curosr Shape ]==="
-let &t_SI = "\<Esc>[6 q"
-let &t_SR = "\<Esc>[4 q"
-let &t_EI = "\<Esc>[2 q"
-
 
 " 摺疊 Folding。
 set foldenable
 set foldmethod=manual
 set foldcolumn=1
 set foldlevel=5
+
+
+set t_Co=256
+set encoding=utf-8
+set background=dark
+
+"COLOR
+let g:transparent_bg = '0'
+let g:gruvbox_contrast_dark = 'hard'
+let g:gruvbox_number_column = 'neutral_orange'
+let g:gruvbox_invert_selection = '0'
+let g:gruvbox_termcolors = '256'
+colorscheme gruvbox
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -164,16 +170,8 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
 map <leader>t<leader> :tabnext<cr>
 
-inoremap jk <esc>
 
-set t_Co=256
-set encoding=utf-8
-
-"ALMOST BLACK
-let g:despacio_Midnight = 1
-colorscheme despacio
-
-" ALL ABOUT MAKE FILE
+" ALL ABOUT MAKE FILE ADJUST YOU LIKE
 nnoremap <leader>m :vert :term make<CR><C-W><C-w>
 nnoremap <leader>mr :vert :term make run<CR><C-W><C-w>
 nnoremap <leader>mb :vert :term make build<CR><C-W><C-w>
@@ -188,3 +186,23 @@ map <C-j> <C-W>j
 map <C-k> <C-W>k
 map <C-h> <C-W>h
 map <C-l> <C-W>l
+
+nnoremap <Leader>b :buffers<CR>:buffer<Space>
+nnoremap <Leader>e :e<CR>:e
+
+" REPLACE WORD
+nnoremap <Leader>rw :%s/Hello/HI/gc 
+nnoremap <Leader>rwc :,$s/old/new/c
+
+" COMMENT
+au FileType haskell,vhdl,ada let b:comment_leader = '-- '
+au FileType vim let b:comment_leader = '" '
+au FileType c,cpp,java let b:comment_leader = '// '
+au FileType sh,make let b:comment_leader = '# '
+au FileType tex let b:comment_leader = '% '
+noremap <Leader>c :<C-B>sil <C-E>s/^/<C-R>=escape(b:comment_leader,'\/')<CR>/<CR>:noh<CR>
+noremap <Leader>cu :<C-B>sil <C-E>s/^\V<C-R>=escape(b:comment_leader,'\/')<CR>//e<CR>:noh<CR>
+
+inoremap jk <esc>
+" BRACKET ISSUE
+" let loaded_matchparen = 1
